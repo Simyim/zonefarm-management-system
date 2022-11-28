@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{
+  font-family: Calibri, Helvetica, sans-serif;
+  background-color: darkgreen;
+}
+.container {
+    padding: 50px;
+  background-color: lightgreen;
+}
+
+input[type=text], input[type=password], textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+input[type=text]:focus, input[type=password]:focus {
+  background-color: orange;
+  outline: none;
+}
+ div {
+            padding: 10px 0;
+         }
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+.registerbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 20px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+.registerbtn:hover {
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+<form>
+  <div class="container">
+  <center>  <h1> Data Collected</h1> </center>
+  <hr>
+  
+  <label> &ensp; Date </label> 
+<input type="date" id="date" name="submission date"> 
+
+
+<label for="appt">&ensp; &ensp; Time:</label>
+<input type="time" id="appt" name="appt"> 
+
+<label> &ensp; &ensp; Humidity: </label>  
+<input type="value" name="humidity" placeholder="g/m3" size="5"required /> 
+
+  <label> &ensp; &ensp; Temperature: </label>  
+<input type="value" name="Temperature" placeholder=" C" size="5"required /> 
+
+<label> 
+&ensp; Device used:
+</label> 
+<select>
+<option value="Camera">Camera</option>
+<option value="Phone">Phone</option>
+<option value="Tablet">Tablet</option>
+<option value="Drones">Drone</option>
+
+
+
+    <h2>Welcome To The Data Collection Center</h2>
+
+
+
+
+
+    <form action="submit.html" method="post" enctype="multipart/form-data">
+         <div>
+            <label for="image_uploads">Choose images to upload (PNG, JPG)</label>
+            <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png" multiple />
+        </div>
+        <div class="preview">
+            <p>No files currently selected for upload</p>
+        </div>
+
+    </form>
+    <input type="submit" onClick="myFunction()" />
+    <script>
+        function myFunction() {
+            window.location.href = "section1";
+        }
+    </script>
+
+    <script>
+        const input = document.querySelector('input');
+        const preview = document.querySelector('.preview');
+
+
+        input.style.opacity = 10;
+        input.addEventListener('change', updateImageDisplay);
+
+        function updateImageDisplay() {
+            while (preview.firstChild) {
+                preview.removeChild(preview.firstChild);
+            }
+
+            const curFiles = input.files;
+            if (curFiles.length === 0) {
+                const para = document.createElement('p');
+                para.textContent = 'No files currently selected for upload';
+                preview.appendChild(para);
+            } else {
+                const list = document.createElement('ol');
+                preview.appendChild(list);
+
+                for (const file of curFiles) {
+                    const listItem = document.createElement('li');
+                    const para = document.createElement('p');
+                    if (validFileType(file)) {
+                        para.textContent = `File name ${file.name}, file size ${returnFileSize(file.size)}.`;
+                        const image = document.createElement('img');
+                        image.src = URL.createObjectURL(file);
+
+                        listItem.appendChild(image);
+                        listItem.appendChild(para);
+                    } else {
+                        para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
+                        listItem.appendChild(para);
+                    }
+
+                    list.appendChild(listItem);
+                }
+            }
+        }
+
+        const fileTypes = [
+            "image/apng",
+            "image/bmp",
+            "image/gif",
+            "image/jpeg",
+            "image/pjpeg",
+            "image/png",
+            "image/svg+xml",
+            "image/tiff",
+            "image/webp",
+            "image/x-icon"
+        ];
+
+        function validFileType(file) {
+            return fileTypes.includes(file.type);
+        }
+
+        function returnFileSize(number) {
+            if (number < 1024) {
+                return `${number} bytes`;
+            } else if (number >= 1024 && number < 1048576) {
+                return `${(number / 1024).toFixed(1)} KB`;
+            } else if (number >= 1048576) {
+                return `${(number / 1048576).toFixed(1)} MB`;
+            }
+        }
+
+        function showinput() {
+            document.getElementById('display').innerHTML =
+                document.getElementById("user_input").value;
+        }
+    </script>
+</form>
+</div>
+
+ <div>
+
+Comment:
+<textarea cols="80" rows="5" placeholder="Additional Information" value="texts" required>
